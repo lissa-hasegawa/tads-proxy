@@ -19,3 +19,5 @@ Para este desafio, foi adotado os seguintes padrões de projeto:
 
 - **_Singleton_** é uma abordagem de design que garante que uma classe tenha apenas uma instância durante todo o ciclo de vida da aplicação, e fornece um ponto global de acesso a essa instância. Dessa forma, evitar múltiplas instâncias de um serviço, recurso compartilhado ou fila, o que poderia causar inconsistências ou sobrecarga.
 - **_Iterator_** permite percorrer uma coleção de elementos (como uma fila de requisições) sem expor sua estrutura interna. Portanto, facilita a navegação sequencial sobre os itens de uma coleção, como uma fila, lista ou conjunto.
+
+- **_Flask_** é um microframework web escrito em Python oferecendo apenas os componentes essenciais para construir aplicações web fazendo o mínimo necessário, e permitindo que o desenvolvedor adicione apenas o que precisa. Possui mais simplicidade, flexibilidade, extensibilidade, curva de aprendizado fácil, síncrono por padrão, além de possuir um controle manual.
