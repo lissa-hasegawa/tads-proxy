@@ -1,0 +1,36 @@
+from flask import Flask, request, jsonify
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from request_queue import RequestQueue
+from request_model import ScoreRequest
+from scheduler import start_scheduler
+import threading
+
+app = Flask(__name__)
+queue = RequestQueue.get_instance()
+
+# 🔁 Inicia o scheduler em segundo plano
+threading.Thread(target=start_scheduler, daemon=True).start()
+
+@app.route("/proxy/score", methods=["GET"])
+def proxy_score():
+    client_id = request.headers.get("client-id")
+    cpf = request.args.get("cpf")
+
+    if not client_id or not cpf:
+        return jsonify({"error": "client-id e cpf são obrigatórios"}), 400
+
+    req = ScoreRequest(client_id=client_id, cpf=cpf)
+    queue.enqueue(req)
+    return jsonify({"status": "enfileirada", "cpf": cpf, "client_id": client_id})
+
+@app.route("/metrics", methods=["GET"])
+def metrics():
+    from metrics import registry
+    return generate_latest(registry), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok", "message": "Serviço ativo"}), 200
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
