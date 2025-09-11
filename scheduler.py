@@ -25,7 +25,6 @@ def score_cpf(request):
 def start_scheduler():
     queue = RequestQueue.get_instance()
     while True:
-        queue_size.set(len(queue.get_all()))
         iterator = RequestIterator(queue)
         try:
             request = next(iter(iterator))
