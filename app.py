@@ -23,35 +23,9 @@ def proxy_score():
     if not client_id or not cpf:
         return jsonify({"error": "client-id e cpf são obrigatórios"}), 400
     
-    url = f"https://score.hsborges.dev/api/score?cpf={cpf}"
-    start = time.time()
-
-    try:
-        resposta = requests.get(url, headers={
-            "client-id": client_id,
-            "accept": "application/json"
-        })
-        duration = time.time() - start
-        if resposta.status_code == 200:
-            dados = resposta.json()
-            return jsonify({
-                "cpf": cpf,
-                "client_id": client_id,
-                "score": dados.get("score"),
-                "latency": duration
-            }), 200
-        else:
-            return jsonify({
-                "cpf": cpf,
-                "client_id": client_id,
-                "error": f"Erro {resposta.status_code}"
-            }), resposta.status_code
-    except requests.exceptions.RequestException as e:
-        return jsonify({
-            "cpf": cpf,
-            "client_id": client_id,
-            "error": str(e)
-        }), 500
+    req = ScoreRequest(client_id=client_id, cpf=cpf)
+    queue.enqueue(req)
+    return jsonify({"status": "enfileirada", "cpf": cpf, "client_id": client_id})
 
 @app.route("/metrics", methods=["GET"])
 def metrics():
