@@ -14,7 +14,7 @@ def send_request(i, cpf):
     headers = {"client-id": str(i)}
     try:
         response = requests.get(url, headers=headers)
-        print(f"[{i}] CPF: {cpf}  → Score: {response.json().get('score')}")
+        print(f"[{i}] CPF: {cpf}")
     except Exception as e:
         print(f"[{i}] CPF: {cpf} → Erro: {e}")
 
