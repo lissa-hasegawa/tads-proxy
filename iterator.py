@@ -1,5 +1,6 @@
 import time
 
+# Criar o Iterator com priorização e TTL
 class RequestIterator:
     def __init__(self, request_queue):
         now = time.time()
