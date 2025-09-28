@@ -4,7 +4,10 @@ from request_queue import RequestQueue
 from request_model import ScoreRequest
 from scheduler import start_scheduler
 import threading
-
+import time
+import requests
+# o que é threading? 
+# É uma biblioteca padrão do Python que permite a execução de múltiplas threads (linhas de execução) dentro de um mesmo processo. 
 app = Flask(__name__)
 queue = RequestQueue.get_instance() # Obtém a instância única da fila de requisições
 
