@@ -4,6 +4,7 @@ from request_queue import RequestQueue
 from iterator import RequestIterator
 from metrics import queue_size, latency
 
+# Função que envia requisição para a API
 def score_cpf(request):
     url = f"https://score.hsborges.dev/api/score?cpf={request.cpf}"
     start = time.time()
@@ -22,6 +23,7 @@ def score_cpf(request):
     except requests.exceptions.RequestException as e:
         print(f"[{request.client_id}] Falha: {e}")
 
+#Scheduler que consome a fila a cada 1 segundo
 def start_scheduler():
     queue = RequestQueue.get_instance()
     while True:
